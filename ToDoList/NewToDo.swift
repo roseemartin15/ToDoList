@@ -25,6 +25,7 @@ struct NewToDoView: View {
         .padding()
     }
 
+    //ADDTODO Function 
     func addToDo() {
         let toDo = ToDoItem(title: toDoItem.title, isImportant: toDoItem.isImportant)
         modelContext.insert(toDo)
