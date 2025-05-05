@@ -27,8 +27,10 @@ struct ContentView: View {
             List {
                 ForEach(toDos)
                 { toDoItem in
-                if toDoItem.isImportant
+                
+                    if toDoItem.isImportant
                 {
+                        
                 Text("‼️" + toDoItem.title)
                 } else
                     {

@@ -9,7 +9,10 @@ struct NewToDoView: View {
     var body: some View {
         VStack {
             TextField("Enter the task description...", text: $toDoItem.title, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
+                .padding()
+                .background(Color(.systemGroupedBackground))
+                .cornerRadius(15)
+                .padding()
 
             Toggle(isOn: $toDoItem.isImportant) {
                 Text("Is it important?")
