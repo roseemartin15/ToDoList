@@ -1,66 +1,58 @@
-//
-//  ContentView.swift
-//  ToDoList
-//
-//  Created by Rose Martin on 5/4/25.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @State private var showNewTask = false
+    @Query var toDos: [ToDoItem]
+    @Environment(\.modelContext) var modelContext
 
     var body: some View {
-        NavigationSplitView {
+        VStack {
+            HStack {
+            Text("To Do List")
+                     .font(.system(size: 40))
+                     .fontWeight(.black)
+                Spacer()
+                Button(action: {
+                    showNewTask = true
+                }) {
+                    Image(systemName: "plus")
+                }
+            }
+            .padding()
+
+            Spacer()
+
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+                ForEach(toDos) { toDoItem in
+                    if toDoItem.isImportant {
+                        Text("‼️" + toDoItem.title)
+                    } else {
+                        Text(toDoItem.title)
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: deleteToDo)
             }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+            .listStyle(.plain)
+
+            if showNewTask {
+                NewToDoView(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false))
             }
-        } detail: {
-            Text("Select an item")
         }
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+    func deleteToDo(at offsets: IndexSet) {
+        for offset in offsets {
+            let toDoItem = toDos[offset]
+            modelContext.delete(toDoItem)
         }
     }
 }
+
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: ToDoItem.self, inMemory: true)
 }
+
+

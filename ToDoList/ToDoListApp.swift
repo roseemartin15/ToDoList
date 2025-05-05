@@ -1,32 +1,15 @@
-//
-//  ToDoListApp.swift
-//  ToDoList
-//
-//  Created by Rose Martin on 5/4/25.
-//
+import SwiftUI
+import SwiftData
 
 import SwiftUI
 import SwiftData
 
 @main
-struct ToDoListApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+struct ToDoList: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: ToDoItem.self)
         }
-        .modelContainer(sharedModelContainer)
     }
 }
