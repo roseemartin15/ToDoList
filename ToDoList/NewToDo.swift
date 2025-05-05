@@ -17,11 +17,11 @@ struct NewToDoView: View {
             Toggle(isOn: $toDoItem.isImportant) {
                 Text("Is it important?")
             }
-
             Button {
                 addToDo()
                 showNewTask = false
-            } label: {
+            }
+            label: {
                 Text("Save")
             }
         }

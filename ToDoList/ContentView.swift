@@ -21,7 +21,6 @@ struct ContentView: View {
                 }
             }
             .padding()
-
             Spacer()
 
             List {
@@ -32,7 +31,8 @@ struct ContentView: View {
                 {
                         
                 Text("‼️" + toDoItem.title)
-                } else
+                }
+                else
                     {
                     Text(toDoItem.title)
                     
@@ -40,8 +40,6 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteToDo)
             }
-           
-
             if showNewTask {
                 NewToDoView(showNewTask: $showNewTask, toDoItem: ToDoItem(title: " ", isImportant: false))
             }
