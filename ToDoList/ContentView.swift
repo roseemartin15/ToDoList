@@ -13,10 +13,11 @@ struct ContentView: View {
                      .font(.system(size: 40))
                      .fontWeight(.black)
                 Spacer()
-                Button(action: {
+                Button
+                    {
                     showNewTask = true
-                }) {
-                    Image(systemName: "plus")
+                    } label: {
+                        Text ("+")
                 }
             }
             .padding()
@@ -24,19 +25,23 @@ struct ContentView: View {
             Spacer()
 
             List {
-                ForEach(toDos) { toDoItem in
-                    if toDoItem.isImportant {
-                        Text("‼️" + toDoItem.title)
-                    } else {
-                        Text(toDoItem.title)
+                ForEach(toDos)
+                { toDoItem in
+                if toDoItem.isImportant
+                {
+                Text("‼️" + toDoItem.title)
+                } else
+                    {
+                    Text(toDoItem.title)
+                    
                     }
                 }
                 .onDelete(perform: deleteToDo)
             }
-            .listStyle(.plain)
+           
 
             if showNewTask {
-                NewToDoView(showNewTask: $showNewTask, toDoItem: ToDoItem(title: "", isImportant: false))
+                NewToDoView(showNewTask: $showNewTask, toDoItem: ToDoItem(title: " ", isImportant: false))
             }
         }
     }
